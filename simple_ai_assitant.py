@@ -1,3 +1,4 @@
+
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
@@ -17,6 +18,10 @@ messages = [
         "role": "system",
         "content": (
             "You are a helpful assistant. Answer in 200 words or less. "
+            "For mathematical operations, always use the available tools. "
+            "When operations are dependent, execute them sequentially. "
+            "Always pass the actual result of the previous tool call "
+            "as the argument to the next tool call."
         )
     }
 ]
@@ -32,20 +37,35 @@ while True:
         "content": user_input
     })
 
-    response = client.chat.completions.create(
-        model=os.getenv("MODEL"),
-        messages=messages,
-        tools=TOOLS
-    )
+    # Chained tool call loop
+    while True:
+        response = client.chat.completions.create(
+            model=os.getenv("MODEL"),
+            messages=messages,
+            tools=TOOLS,
+            tool_choice="auto"
+        )
 
-    msg = response.choices[0].message
+        msg = response.choices[0].message
 
-    if msg.tool_calls:
+        # If no tool calls, return final answer
+        if not msg.tool_calls:
+            messages.append({
+                "role": "assistant",
+                "content": msg.content or ""
+            })
+
+            print("Assistant:", msg.content)
+            break
+
+        # Append assistant tool call message
         messages.append(msg.model_dump(exclude_none=True))
 
         for tool in msg.tool_calls:
             function_name = tool.function.name
-            function_args = json.loads(tool.function.arguments or "{}")
+            function_args = json.loads(
+                tool.function.arguments or "{}"
+            )
 
             if function_name in FUNCTION_NAME_TO_FUNCTION_MAP:
                 function_to_call = FUNCTION_NAME_TO_FUNCTION_MAP[function_name]
@@ -58,18 +78,3 @@ while True:
                 "tool_call_id": tool.id,
                 "content": str(function_response)
             })
-
-        # Request the final answer after tool execution.
-        response = client.chat.completions.create(
-            model=os.getenv("MODEL"),
-            messages=messages
-        )
-
-        msg = response.choices[0].message
-
-    messages.append({
-        "role": "assistant",
-        "content": msg.content or ""
-    })
-
-    print("Assistant:", msg.content)
