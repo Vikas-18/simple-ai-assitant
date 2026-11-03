@@ -27,7 +27,7 @@ messages = [
 ]
 
 while True:
-    user_input = input("User: ")
+    user_input = input("\nUser: ")
 
     if user_input.lower() == "exit":
         break
@@ -37,44 +37,107 @@ while True:
         "content": user_input
     })
 
-    # Chained tool call loop
     while True:
-        response = client.chat.completions.create(
+
+        stream = client.chat.completions.create(
             model=os.getenv("MODEL"),
             messages=messages,
             tools=TOOLS,
-            tool_choice="auto"
+            tool_choice="auto",
+            stream=True
         )
 
-        msg = response.choices[0].message
+        content = ""
+        tool_calls = {}
 
-        # If no tool calls, return final answer
-        if not msg.tool_calls:
+        print("Assistant: ", end="", flush=True)
+
+        for chunk in stream:
+
+            delta = chunk.choices[0].delta
+
+            # Stream normal text
+            if delta.content:
+                content += delta.content
+                print(delta.content, end="", flush=True)
+
+            # Collect tool calls
+            if delta.tool_calls:
+                for tool in delta.tool_calls:
+
+                    index = tool.index
+
+                    if index not in tool_calls:
+                        tool_calls[index] = {
+                            "id": "",
+                            "type": "function",
+                            "function": {
+                                "name": "",
+                                "arguments": ""
+                            }
+                        }
+
+                    if tool.id:
+                        tool_calls[index]["id"] = tool.id
+
+                    if tool.function.name:
+                        tool_calls[index]["function"]["name"] += (
+                            tool.function.name
+                        )
+
+                    if tool.function.arguments:
+                        tool_calls[index]["function"]["arguments"] += (
+                            tool.function.arguments
+                        )
+
+        print()
+
+        # No tool calls: final response
+        if not tool_calls:
             messages.append({
                 "role": "assistant",
-                "content": msg.content or ""
+                "content": content
             })
-
-            print("Assistant:", msg.content)
             break
 
-        # Append assistant tool call message
-        messages.append(msg.model_dump(exclude_none=True))
+        # Append assistant tool-call message
+        assistant_tool_message = {
+            "role": "assistant",
+            "content": content or None,
+            "tool_calls": list(tool_calls.values())
+        }
 
-        for tool in msg.tool_calls:
-            function_name = tool.function.name
+        messages.append(assistant_tool_message)
+
+        # Execute tools
+        for tool in tool_calls.values():
+
+            function_name = tool["function"]["name"]
+
             function_args = json.loads(
-                tool.function.arguments or "{}"
+                tool["function"]["arguments"] or "{}"
             )
 
+            print(f"\n[Calling tool: {function_name}]")
+            print("Arguments:", function_args)
+
             if function_name in FUNCTION_NAME_TO_FUNCTION_MAP:
-                function_to_call = FUNCTION_NAME_TO_FUNCTION_MAP[function_name]
+
+                function_to_call = FUNCTION_NAME_TO_FUNCTION_MAP[
+                    function_name
+                ]
+
                 function_response = function_to_call(**function_args)
+
             else:
-                function_response = f"Function {function_name} not found."
+                function_response = (
+                    f"Function {function_name} not found."
+                )
+
+            print("Tool result:", function_response)
 
             messages.append({
                 "role": "tool",
-                "tool_call_id": tool.id,
+                "tool_call_id": tool["id"],
                 "content": str(function_response)
             })
