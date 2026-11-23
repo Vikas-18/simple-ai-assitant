@@ -1,0 +1,22 @@
+Company ESOP Policy
+
+An Employee Stock Ownership Plan (ESOP) allows eligible employees to receive or purchase company shares under an approved plan.
+
+Eligibility
+Eligibility is determined by role, joining date, employment status, and plan rules. Not every employee is eligible for a grant.
+
+Grants
+An ESOP grant specifies the number of options or units awarded, the grant date, exercise price if applicable, vesting schedule, and expiration date.
+
+Vesting
+Standard grants use a 4-year vesting schedule: 25% of options vest after 12 months of service, followed by monthly vesting of 1/48 of the grant for each additional month.
+Example: A grant of 4,800 options will vest 1,200 options after the first 12 months and 100 options per month thereafter.
+
+Exercise
+Eligible vested units may be exercised through the designated equity portal. Exercise may require payment and can have tax implications.
+
+Termination
+Vesting generally stops when employment ends, subject to the grant agreement and plan terms. Employees must act within the post-termination exercise window stated in the grant documents.
+
+Important
+ESOP value depends on company performance and market conditions. Grants do not guarantee a financial return. Employees should review plan documents and seek independent financial or tax advice where needed.

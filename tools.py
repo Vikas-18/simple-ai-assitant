@@ -2,6 +2,8 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+from rag import search as rag_search
+
 
 def get_current_time(timezone: str = "UTC"):
     """
@@ -31,6 +33,12 @@ def get_square(a):
     print(f"Calculating the square of {a}")
     return a * a
 
+def search(query, top_k=3):
+    """
+    Search company policy documents and return the most relevant sections.
+    """
+    print(f"Searching company documents for: {query}")
+    return rag_search(query, top_k)
 
 TOOLS = [
     {
@@ -87,6 +95,28 @@ TOOLS = [
                 "required": ["a"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "search",
+            "description": "Search company policy documents for leave balances, provident fund deductions, insurance, medical benefits, or ESOP information.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Question or keywords to search in company documents."
+                    },
+                    "top_k": {
+                        "type": "integer",
+                        "description": "Maximum number of relevant document sections to return.",
+                        "default": 3
+                    }
+                },
+                "required": ["query"]
+            }
+        }
     }
 ]
 
@@ -94,5 +124,6 @@ TOOLS = [
 FUNCTION_NAME_TO_FUNCTION_MAP = {
     "get_current_time": get_current_time,
     "get_sum": get_sum,
-    "get_square": get_square
+    "get_square": get_square,
+    "search": search
 }

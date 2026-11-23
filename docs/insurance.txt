@@ -1,0 +1,18 @@
+Company Insurance Policy
+
+The company provides eligible employees and their approved dependents with group insurance coverage.
+
+Life Insurance
+The policy provides life insurance equal to 3 times annual gross compensation, subject to a minimum of INR 10,00,000 and a maximum of INR 50,00,000.
+
+Accidental Insurance
+Accidental death and permanent total disability coverage equal to 2 times annual gross compensation, subject to a maximum of INR 25,00,000.
+
+Health Insurance
+Health insurance covers eligible medical expenses according to the selected plan, network, deductibles, and annual limits.
+
+Enrollment
+New employees should submit enrollment details during onboarding or the next enrollment window. Changes due to marriage, birth, adoption, or other qualifying events must be reported to HR within the deadline stated in the plan.
+
+Claims and Support
+Use only the insurer's approved network or claim process. Keep copies of documents and refer to the policy schedule for limits and exclusions.

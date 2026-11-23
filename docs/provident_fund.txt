@@ -1,0 +1,27 @@
+Provident Fund Policy
+
+The company operates a provident fund for employees in accordance with applicable law and plan rules.
+
+Contributions
+The provident fund is calculated on Basic Salary plus Dearness Allowance (DA).
+- Employee contribution: 12% of Basic Salary plus DA.
+- Employer contribution: 12% of Basic Salary plus DA.
+- The statutory PF wage ceiling is INR 15,000 per month unless the employee has an applicable higher-salary arrangement.
+- Example: If Basic Salary plus DA is INR 30,000, the statutory monthly employee PF deduction is 12% of INR 15,000 = INR 1,800.
+- Example: If Basic Salary plus DA is INR 12,000, the employee PF deduction is 12% x INR 12,000 = INR 1,440.
+- At the standard statutory ceiling, the employer contributes INR 1,800 per month. The employer's contribution may be split between EPF and EPS according to prevailing statutory rules.
+
+PF Deduction Formula
+Monthly Employee PF = 12% x Minimum(Basic Salary + DA, INR 15,000)
+
+Vesting
+Employee contributions belong to the employee according to plan terms. Employer contributions may vest over time according to the approved vesting schedule.
+
+Withdrawals
+Early withdrawals may be permitted for eligible circumstances such as retirement, resignation, medical treatment, education, housing, or other qualifying needs. Required approvals and waiting periods apply.
+
+Nomination
+Employees should register nominees and update them after major life events. Nomination status may determine how the fund balance is distributed.
+
+Statements and Support
+Employees can view their fund balance and contribution history through the designated fund portal or payroll channel. HR can assist with enrollment, tax, nomination, and withdrawal questions.

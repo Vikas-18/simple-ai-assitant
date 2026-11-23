@@ -19,6 +19,8 @@ messages = [
         "content": (
             "You are a helpful assistant. Answer in 200 words or less. "
             "For mathematical operations, always use the available tools. "
+            "For questions about company leave, provident fund, insurance, medical benefits, or ESOP policies, use the search tool "
+            "and answer only from the returned company documents. "
             "When operations are dependent, execute them sequentially. "
             "Always pass the actual result of the previous tool call "
             "as the argument to the next tool call."
